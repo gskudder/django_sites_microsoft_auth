@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from .client import MicrosoftClient
-from .conf import LOGIN_TYPE_XBL, config
+from .old_conf import LOGIN_TYPE_XBL, config
 from .utils import get_scheme
 
 logger = logging.getLogger("django")

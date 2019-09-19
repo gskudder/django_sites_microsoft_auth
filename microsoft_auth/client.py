@@ -9,7 +9,7 @@ from django.urls import reverse
 from jwt.algorithms import RSAAlgorithm
 from requests_oauthlib import OAuth2Session
 
-from .conf import (
+from .old_conf import (
     CACHE_KEY_JWKS,
     CACHE_KEY_OPENID,
     CACHE_TIMEOUT,
@@ -49,7 +49,7 @@ class MicrosoftClient(OAuth2Session):
     SCOPE_MICROSOFT = ["openid", "email", "profile"]
 
     def __init__(self, state=None, request=None, *args, **kwargs):
-        from .conf import config
+        from .old_conf import config
 
         self.config = config
 

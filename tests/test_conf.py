@@ -4,7 +4,7 @@
 
 from django.test import override_settings
 
-from microsoft_auth.conf import DEFAULT_CONFIG, SimpleConfig
+from microsoft_auth.old_conf import DEFAULT_CONFIG, SimpleConfig
 
 from . import TransactionTestCase
 
@@ -25,7 +25,7 @@ class ConfTests(TransactionTestCase):
     def test_default_settings(self):
         """ Tests all the default settings are initialized correctly """
 
-        from microsoft_auth.conf import config
+        from microsoft_auth.old_conf import config
 
         for key, setting in DEFAULT_CONFIG["defaults"].items():
             actual_setting = getattr(config, key)
@@ -34,7 +34,7 @@ class ConfTests(TransactionTestCase):
     def test_config_class(self):
         """ Tests MICROSOFT_AUTH_CONFIG_CLASS=None """
 
-        from microsoft_auth.conf import config
+        from microsoft_auth.old_conf import config
 
         self.assertTrue(isinstance(config, SimpleConfig))
         self.assertFalse(isinstance(config, SimpleTestConfig))
@@ -43,7 +43,7 @@ class ConfTests(TransactionTestCase):
     def test_config_class_as_none(self):
         """ Tests MICROSOFT_AUTH_CONFIG_CLASS=None """
 
-        from microsoft_auth.conf import config
+        from microsoft_auth.old_conf import config
 
         self.assertTrue(isinstance(config, SimpleConfig))
         self.assertFalse(isinstance(config, SimpleTestConfig))
@@ -51,7 +51,7 @@ class ConfTests(TransactionTestCase):
     @override_settings(MICROSOFT_AUTH_CONFIG_CLASS="tests.test_conf.test_conf")
     def test_custom_config_class(self):
         """ Tests MICROSOFT_AUTH_CONFIG_CLASS set to another class """
-        from microsoft_auth.conf import config
+        from microsoft_auth.old_conf import config
 
         self.assertTrue(isinstance(config, SimpleTestConfig))
 
@@ -61,6 +61,6 @@ class ConfTests(TransactionTestCase):
     def test_custom_config_class_with_no_default(self):
         """ Tests MICROSOFT_AUTH_CONFIG_CLASS set to another class with no
             add_default_config option """
-        from microsoft_auth.conf import config
+        from microsoft_auth.old_conf import config
 
         self.assertTrue(isinstance(config, SimpleTestNoDefaultConfig))

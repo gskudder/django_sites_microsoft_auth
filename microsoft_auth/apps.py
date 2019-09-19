@@ -14,7 +14,7 @@ class MicrosoftAuthConfig(AppConfig):
 @register()
 def microsoft_auth_validator(app_configs, **kwargs):
     from django.contrib.sites.models import Site
-    from .conf import config, HOOK_SETTINGS
+    from .old_conf import config, HOOK_SETTINGS
 
     errors = []
 

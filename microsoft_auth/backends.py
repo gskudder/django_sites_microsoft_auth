@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
 from .client import MicrosoftClient
-from .conf import LOGIN_TYPE_XBL
+from .old_conf import LOGIN_TYPE_XBL
 from .models import MicrosoftAccount, XboxLiveAccount
 from .utils import get_hook
 
@@ -20,7 +20,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
     microsoft = None
 
     def __init__(self, user=None):
-        from .conf import config
+        from .old_conf import config
 
         self.config = config
 

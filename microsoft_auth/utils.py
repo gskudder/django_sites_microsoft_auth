@@ -1,7 +1,7 @@
 import importlib
 
-from .conf import HOOK_SETTINGS
-from .conf import config as global_config
+from .old_conf import HOOK_SETTINGS
+from .old_conf import config as global_config
 
 
 def get_scheme(request, config=None):

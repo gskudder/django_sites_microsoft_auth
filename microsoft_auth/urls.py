@@ -1,4 +1,4 @@
-from .conf import config
+from .old_conf import config
 
 app_name = "microsoft_auth"
 

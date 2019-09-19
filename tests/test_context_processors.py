@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 import pytest
 from django.test import RequestFactory, override_settings
 
-from microsoft_auth.conf import LOGIN_TYPE_XBL
+from microsoft_auth.old_conf import LOGIN_TYPE_XBL
 from microsoft_auth.context_processors import microsoft
 
 from . import TestCase

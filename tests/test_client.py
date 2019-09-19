@@ -7,7 +7,7 @@ from django.contrib.sites.models import Site
 from django.test import RequestFactory, override_settings
 
 from microsoft_auth.client import MicrosoftClient
-from microsoft_auth.conf import LOGIN_TYPE_XBL
+from microsoft_auth.old_conf import LOGIN_TYPE_XBL
 
 from . import TestCase
 

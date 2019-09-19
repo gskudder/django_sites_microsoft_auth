@@ -12,7 +12,7 @@ import pytest
 from django.core.management import call_command
 from django.test import modify_settings
 
-from microsoft_auth.conf import DEFAULT_CONFIG
+from microsoft_auth.old_conf import DEFAULT_CONFIG
 
 from . import TestCase
 from .test_conf import ConfTests
@@ -28,7 +28,7 @@ class ConstanceTests(TestCase):
         self.client.get("/admin/constance/config/")
 
     def test_config_constance_not_found(self):
-        from microsoft_auth.conf import config, init_config
+        from microsoft_auth.old_conf import config, init_config
 
         init_config()
 
