@@ -49,9 +49,9 @@ class MicrosoftClient(OAuth2Session):
     SCOPE_MICROSOFT = ["openid", "email", "profile"]
 
     def __init__(self, state=None, request=None, *args, **kwargs):
-        from .old_conf import config
+        from .conf import get_conf
 
-        self.config = config
+        self.config = get_conf(request)
 
         extra_scopes = self.config.MICROSOFT_AUTH_EXTRA_SCOPES
 

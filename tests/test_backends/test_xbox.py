@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 from django.contrib.auth import authenticate, get_user_model
 from django.test import RequestFactory, override_settings
 
+from microsoft_auth.conf import get_conf
 from microsoft_auth.old_conf import LOGIN_TYPE_XBL
 from microsoft_auth.models import XboxLiveAccount
 
@@ -21,7 +22,6 @@ GAMERTAG = "Some Gamertag"
         "microsoft_auth.backends.MicrosoftAuthenticationBackend",
         "django.contrib.auth.backends.ModelBackend",
     ],
-    MICROSOFT_AUTH_LOGIN_TYPE=LOGIN_TYPE_XBL,
 )
 class XboxLiveBackendsTests(TestCase):
     def setUp(self):
@@ -31,6 +31,10 @@ class XboxLiveBackendsTests(TestCase):
 
         self.factory = RequestFactory()
         self.request = self.factory.get("/")
+
+        config = get_conf(self.request)
+        config.login_type = LOGIN_TYPE_XBL
+        config.save()
 
         self.linked_account = XboxLiveAccount.objects.create(
             xbox_id="test_id", gamertag="test_gamertag"
@@ -90,7 +94,6 @@ class XboxLiveBackendsTests(TestCase):
         self.assertEqual(user.id, self.linked_account.user.id)
         self.assertEqual(GAMERTAG, self.linked_account.gamertag)
 
-    @override_settings(MICROSOFT_AUTH_AUTO_CREATE=False)
     @patch("microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_no_autocreate(self, mock_client):
         mock_auth = Mock()
@@ -101,6 +104,10 @@ class XboxLiveBackendsTests(TestCase):
             "xid": MISSING_ID,
             "gtg": GAMERTAG,
         }
+
+        conf = get_conf(self.request)
+        conf.auto_create = False
+        conf.save()
 
         mock_client.return_value = mock_auth
 
@@ -147,7 +154,6 @@ class XboxLiveBackendsTests(TestCase):
         self.assertEqual(user.id, self.linked_account.user.id)
         self.assertNotEqual(GAMERTAG, self.linked_account.user.username)
 
-    @override_settings(MICROSOFT_AUTH_XBL_SYNC_USERNAME=True)
     @patch("microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_sync_username(self, mock_client):
         mock_auth = Mock()
@@ -160,6 +166,10 @@ class XboxLiveBackendsTests(TestCase):
         }
 
         mock_client.return_value = mock_auth
+
+        conf = get_conf(self.request)
+        conf.xbl_sync_username = True
+        conf.save()
 
         user = authenticate(self.request, code=CODE)
         self.linked_account.refresh_from_db()

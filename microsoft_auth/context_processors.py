@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.signing import TimestampSigner
 from django.middleware.csrf import get_token
@@ -7,8 +8,8 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from .client import MicrosoftClient
-from .old_conf import LOGIN_TYPE_XBL, config
 from .utils import get_scheme
+from .conf import get_conf, LOGIN_TYPE_XBL
 
 logger = logging.getLogger("django")
 
@@ -16,12 +17,13 @@ logger = logging.getLogger("django")
 def microsoft(request):
     """ Adds global template variables for microsoft_auth """
     login_type = None
+    config = get_conf(request)
     if config.MICROSOFT_AUTH_LOGIN_TYPE == LOGIN_TYPE_XBL:
         login_type = _("Xbox Live")
     else:
         login_type = _("Microsoft")
 
-    if config.DEBUG:  # pragma: no branch
+    if settings.DEBUG:  # pragma: no branch
         try:
             current_domain = Site.objects.get_current(request).domain
         except Site.DoesNotExist:

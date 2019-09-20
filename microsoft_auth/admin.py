@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .old_conf import LOGIN_TYPE_MA, LOGIN_TYPE_XBL, config
-from .models import MicrosoftAccount, XboxLiveAccount
+from .models import MicrosoftAccount, XboxLiveAccount, SiteConfiguration
 
 __all__ = [
     "MicrosoftAccountAdmin",
@@ -62,10 +62,14 @@ def _register_admins():
     if admin.site.is_registered(XboxLiveAccount):
         admin.site.unregister(XboxLiveAccount)
 
+    if admin.site.is_registered(SiteConfiguration):
+        admin.site.unregister(SiteConfiguration)
+
     if _do_both or _login_type == LOGIN_TYPE_MA:
         admin.site.register(MicrosoftAccount, MicrosoftAccountAdmin)
     if _do_both or _login_type == LOGIN_TYPE_XBL:
         admin.site.register(XboxLiveAccount, XboxLiveAccountAdmin)
+    admin.site.register(SiteConfiguration)
 
 
 def _get_inlines():

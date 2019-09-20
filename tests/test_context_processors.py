@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 import pytest
 from django.test import RequestFactory, override_settings
 
+from microsoft_auth.conf import get_conf
 from microsoft_auth.old_conf import LOGIN_TYPE_XBL
 from microsoft_auth.context_processors import microsoft
 
@@ -31,10 +32,13 @@ class ContextProcessorsTests(TestCase):
 
         self.assertTrue(context.get("microsoft_login_enabled"))
 
-    @override_settings(MICROSOFT_AUTH_LOGIN_ENABLED=False)
     @patch("microsoft_auth.context_processors.MicrosoftClient")
     def test_microsoft_login_enabled_disabled(self, mock_client):
         request = self.factory.get("/")
+
+        config = get_conf(request)
+        config.login_enabled = False
+        config.save()
         context = microsoft(request)
 
         self.assertFalse(context.get("microsoft_login_enabled"))
@@ -60,25 +64,14 @@ class ContextProcessorsTests(TestCase):
 
         self.assertEqual("Microsoft", context.get("microsoft_login_type_text"))
 
-    @override_settings(MICROSOFT_AUTH_LOGIN_TYPE=LOGIN_TYPE_XBL)
     @patch("microsoft_auth.context_processors.MicrosoftClient")
     def test_microsoft_login_type_text_xbl(self, mock_client):
 
         request = self.factory.get("/")
+
+        config = get_conf(request)
+        config.login_type = LOGIN_TYPE_XBL
+        config.save()
         context = microsoft(request)
 
         self.assertEqual("Xbox Live", context.get("microsoft_login_type_text"))
-
-    def test_warning(self):
-        self.site.domain = "example.com"
-        self.site.save()
-
-        request = self.factory.get("/")
-        microsoft(request)
-
-        message_found = False
-        for record in self._caplog.records:
-            if "does not match the domain" in record.message:
-                message_found = True
-
-        self.assertTrue(message_found)

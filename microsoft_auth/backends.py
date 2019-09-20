@@ -3,8 +3,9 @@ import logging
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
+from microsoft_auth import conf
 from .client import MicrosoftClient
-from .old_conf import LOGIN_TYPE_XBL
+from .conf import LOGIN_TYPE_XBL
 from .models import MicrosoftAccount, XboxLiveAccount
 from .utils import get_hook
 
@@ -19,11 +20,6 @@ class MicrosoftAuthenticationBackend(ModelBackend):
     config = None
     microsoft = None
 
-    def __init__(self, user=None):
-        from .old_conf import config
-
-        self.config = config
-
     def authenticate(self, request, code=None):
         """
             Authenticates the user against the Django backend
@@ -36,6 +32,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
         """
 
         self.microsoft = MicrosoftClient(request=request)
+        self.config = conf.get_conf(request)
 
         user = None
         if code is not None:

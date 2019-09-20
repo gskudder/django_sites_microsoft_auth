@@ -99,4 +99,4 @@ class SiteConfiguration(models.Model):
         :return:
         """
         real_name = name.replace('MICROSOFT_AUTH_', '').lower()
-        return getattr(self, real_name)
+        return super().__getattribute__(real_name)

@@ -7,6 +7,7 @@ from django.contrib.sites.models import Site
 from django.test import RequestFactory, override_settings
 
 from microsoft_auth.client import MicrosoftClient
+from microsoft_auth.conf import get_conf
 from microsoft_auth.old_conf import LOGIN_TYPE_XBL
 
 from . import TestCase
@@ -65,9 +66,11 @@ class ClientTests(TestCase):
         auth_client = MicrosoftClient()
         self.assertEqual(expected_scopes, auth_client.scope)
 
-    @override_settings(MICROSOFT_AUTH_LOGIN_TYPE=LOGIN_TYPE_XBL)
     def test_xbox_scopes(self):
         expected_scopes = " ".join(MicrosoftClient.SCOPE_XBL)
+        config = get_conf(None)
+        config.login_type = LOGIN_TYPE_XBL
+        config.save()
 
         auth_client = MicrosoftClient()
         self.assertEqual(expected_scopes, auth_client.scope)
@@ -80,8 +83,11 @@ class ClientTests(TestCase):
         auth_client = MicrosoftClient()
         self.assertEqual(REDIRECT_URI, auth_client.redirect_uri)
 
-    @override_settings(MICROSOFT_AUTH_CLIENT_ID=CLIENT_ID)
     def test_authorization_url(self):
+        config = get_conf(None)
+        config.client_id = CLIENT_ID
+        config.save()
+
         auth_client = MicrosoftClient(state=STATE)
 
         base_url = auth_client.openid_config["authorization_endpoint"]
@@ -91,15 +97,16 @@ class ClientTests(TestCase):
             expected_auth_url, auth_client.authorization_url()
         )
 
-    @override_settings(
-        MICROSOFT_AUTH_CLIENT_ID=CLIENT_ID,
-        MICROSOFT_AUTH_LOGIN_TYPE=LOGIN_TYPE_XBL,
-    )
     def test_authorization_url_with_xbl(self):
         base_url = MicrosoftClient._xbox_authorization_url
         expected_auth_url = self._get_auth_url(
             base_url, scopes=MicrosoftClient.SCOPE_XBL
         )
+
+        config = get_conf(None)
+        config.client_id = CLIENT_ID
+        config.login_type = LOGIN_TYPE_XBL
+        config.save()
 
         auth_client = MicrosoftClient(state=STATE)
         self._assert_auth_url(
@@ -233,9 +240,12 @@ class ClientTests(TestCase):
         auth_client = MicrosoftClient()
         self.assertFalse(auth_client.valid_scopes(scopes))
 
-    @override_settings(MICROSOFT_AUTH_LOGIN_TYPE=LOGIN_TYPE_XBL)
     def test_valid_scopes_xbox(self):
         scopes = MicrosoftClient.SCOPE_XBL
+
+        config = get_conf(None)
+        config.login_type = LOGIN_TYPE_XBL
+        config.save()
 
         auth_client = MicrosoftClient()
         self.assertTrue(auth_client.valid_scopes(scopes))

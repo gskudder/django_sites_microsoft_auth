@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 from django.contrib.auth import authenticate, get_user_model
 from django.test import RequestFactory, override_settings
 
+from microsoft_auth.conf import get_conf
 from microsoft_auth.models import MicrosoftAccount
 
 from .. import TestCase
@@ -267,7 +268,6 @@ class MicrosoftBackendsTests(TestCase):
         self.assertEqual(FIRST, self.unlinked_user.first_name)
         self.assertEqual(LAST, self.unlinked_user.last_name)
 
-    @override_settings(MICROSOFT_AUTH_AUTO_CREATE=False)
     @patch("microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_no_autocreate(self, mock_client):
         mock_auth = Mock()
@@ -276,6 +276,10 @@ class MicrosoftBackendsTests(TestCase):
         mock_auth.get_claims.return_value = {"sub": MISSING_ID}
 
         mock_client.return_value = mock_auth
+
+        config = get_conf(self.request)
+        config.auto_create = False
+        config.save()
 
         user = authenticate(self.request, code=CODE)
 
@@ -339,7 +343,6 @@ class MicrosoftBackendsTests(TestCase):
 
         self.assertIsNone(user)
 
-    @override_settings(MICROSOFT_AUTH_AUTO_REPLACE_ACCOUNTS=True)
     @patch("microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_linked_replace(self, mock_client):
         mock_auth = Mock()
@@ -351,6 +354,10 @@ class MicrosoftBackendsTests(TestCase):
             "name": "{} {}".format(FIRST, LAST),
             "preferred_username": EMAIL,
         }
+
+        config = get_conf(self.request)
+        config.auto_replace_accounts = True
+        config.save()
 
         mock_client.return_value = mock_auth
 
