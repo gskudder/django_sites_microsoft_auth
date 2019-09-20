@@ -2,6 +2,25 @@
 Django Sites Microsoft Authentication Backend
 =============================================
 
+.. image:: https://travis-ci.org/gskudder/django_sites_microsoft_auth.svg?branch=master
+    :target: https://travis-ci.org/AngellusMortis/django_microsoft_auth/
+    :alt: Travis CI
+
+.. image:: https://pyup.io/repos/github/gskudder/django_sites_microsoft_auth/shield.svg
+    :target: https://pyup.io/repos/github/AngellusMortis/django_microsoft_auth/
+    :alt: Updates
+
+.. image:: https://coveralls.io/repos/github/gskudder/django_sites_microsoft_auth/badge.svg?branch=master
+    :target: https://coveralls.io/github/AngellusMortis/django_microsoft_auth?branch=master
+    :alt: Coverage
+
+.. image:: https://api.codeclimate.com/v1/badges/3370bb5f4ecee3af4ee0/maintainability
+   :target: https://codeclimate.com/github/gskudder/django_sites_microsoft_auth/maintainability
+   :alt: Maintainability
+
+.. image:: https://api.codeclimate.com/v1/badges/3370bb5f4ecee3af4ee0/test_coverage
+   :target: https://codeclimate.com/github/gskudder/django_sites_microsoft_auth/test_coverage
+   :alt: Test Coverage
 
 Simple app to enable Microsoft Account, Office 365 and Xbox Live authentcation
 as a Django authentication backend that is compatible and configurable across multiple sites.
