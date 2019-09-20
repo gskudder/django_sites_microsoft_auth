@@ -10,6 +10,10 @@ Django Sites Microsoft Authentication Backend
     :target: https://pyup.io/repos/github/gskudder/django_sites_microsoft_auth/
     :alt: Updates
 
+.. image:: https://readthedocs.org/projects/django-sites-microsoft-auth/badge/?version=latest
+    :target: https://django-sites-microsoft-auth.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 .. image:: https://coveralls.io/repos/github/gskudder/django_sites_microsoft_auth/badge.svg?branch=pyup-initial-update
     :target: https://coveralls.io/github/gskudder/django_sites_microsoft_auth?branch=pyup-initial-update
     :alt: Coverage
