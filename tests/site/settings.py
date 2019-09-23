@@ -17,6 +17,8 @@ INSTALLED_APPS = [
     "tests",
 ]
 
+AUTH_USER_MODEL = 'tests.TestUser'
+
 try:
     import djangoql  # noqa
 
