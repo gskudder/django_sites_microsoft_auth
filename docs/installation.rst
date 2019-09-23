@@ -12,7 +12,7 @@ To install Django Microsoft Authentication Backend, run this command in your ter
 
 .. code-block:: console
 
-    $ pip install django_microsoft_auth
+    $ pip install django_sites_microsoft_auth
 
 This is the preferred method to install Django Microsoft Authentication Backend, as it will always install the most recent stable release.
 
@@ -26,20 +26,20 @@ you through the process.
 From sources
 ------------
 
-The sources for Django Microsoft Authentication Backend can be downloaded from
+The sources for Django Sites Microsoft Authentication Backend can be downloaded from
 the `Github repo`_.
 
 You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/AngellusMortis/django_microsoft_auth
+    $ git clone git://github.com/gskudder/django_sites_microsoft_auth
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/AngellusMortis/django_microsoft_auth/tarball/master
+    $ curl  -OL https://github.com/gskudder/django_sites_microsoft_auth/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -48,8 +48,8 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/AngellusMortis/django_microsoft_auth
-.. _tarball: https://github.com/AngellusMortis/django_microsoft_auth/tarball/master
+.. _Github repo: https://github.com/gskudder/django_sites_microsoft_auth
+.. _tarball: https://github.com/gskudder/django_sites_microsoft_auth/tarball/master
 
 
 Setup

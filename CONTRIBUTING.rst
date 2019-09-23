@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/AngellusMortis/django_microsoft_auth/issues.
+Report bugs at https://github.com/gskudder/django_sites_microsoft_auth/issues.
 
 If you are reporting a bug, please include:
 
@@ -45,7 +45,7 @@ articles, and such.
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/AngellusMortis/django_microsoft_auth/issues.
+The best way to send feedback is to file an issue at https://github.com/gskudder/django_sites_microsoft_auth/issues.
 
 If you are proposing a feature:
 
@@ -57,17 +57,17 @@ If you are proposing a feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `django_microsoft_auth` for local development.
+Ready to contribute? Here's how to set up `django_sites_microsoft_auth` for local development.
 
-1. Fork the `django_microsoft_auth` repo on GitHub.
+1. Fork the `django_sites_microsoft_auth` repo on GitHub.
 2. Clone your fork locally::
 
-    $ git clone git@github.com:your_name_here/django_microsoft_auth.git
+    $ git clone git@github.com:your_name_here/django_sites_microsoft_auth.git
 
 3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
 
-    $ mkvirtualenv django_microsoft_auth
-    $ cd django_microsoft_auth/
+    $ mkvirtualenv venv
+    $ cd django_sites_microsoft_auth/
     $ pip install -e ".[dev]"
 
 4. Create a branch for local development::
@@ -102,5 +102,5 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
 3. The pull request should work for Python 3.4, 3.5, and 3.6. Check
-   https://travis-ci.org/AngellusMortis/django_microsoft_auth/pull_requests
+   https://travis-ci.org/gskudder/django_sites_microsoft_auth/pull_requests
    and make sure that the tests pass for all supported Python versions.

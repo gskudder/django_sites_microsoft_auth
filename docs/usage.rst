@@ -43,9 +43,28 @@ Quickstart
 
 .. code-block:: console
 
-    $ pip install django_microsoft_auth
+    $ pip install django_sites_microsoft_auth
 
-5. Add the following to your `settings.py`
+5. Create a `custom user model <https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#specifying-a-custom-user-model>`_
+
+The easiest way to do this is to subclass `microsoft_auth.models.SitesUser`.
+You can also create your own custom user model that includes the following fields:
+
+.. code-block:: python3
+
+    from django.contrib.sites.models import Site
+    import microsoft_auth.models
+
+    username = models.CharField(
+        _('username'),
+        max_length=150,
+        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+        validators=[microsoft_auth.models.UnicodeSpaceUsernameValidator],
+        unique=True,
+    )
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+
+6. Add the following to your `settings.py`
 
 .. code-block:: python3
 
@@ -54,6 +73,8 @@ Quickstart
         'django.contrib.sites',
         'microsoft_auth',
     ]
+
+    AUTH_USER_MODEL = 'app_name.YourCustomUserModel'
 
     TEMPLATES = [
         {
@@ -87,7 +108,7 @@ Quickstart
 
 
 
-6. Add the following to your `urls.py`
+7. Add the following to your `urls.py`
 
 .. code-block:: python3
 
@@ -96,7 +117,7 @@ Quickstart
         path('microsoft/', include('microsoft_auth.urls', namespace='microsoft')),
     ]
 
-7. Run migrations
+8. Run migrations
 
 .. code-block:: console
 
@@ -116,7 +137,7 @@ As part of unit testing, there minimal functioning site that is pimarily used
 for running tests against and to help development. It can be used as a
 reference for how to do some things.
 
-The full refrence site exists under `tests/site`
+The full reference site exists under `tests/site`
 
 To setup,
 
@@ -136,48 +157,10 @@ To setup,
 5. Configure your `Site <http://localhost:8000/admin/sites/site>`_.
 
 
-Migrating from 1.0 to 2.0
--------------------------
-
-`django_microsoft_auth` v2.0 changed the scopes that are used to retrieve user
-data to fall inline with OpenID Connect standards. The old `User.read` scope is
-now deprecated and `openid email profile` scopes are required by default.
-
-This means the user ID that is returned from Microsoft has changed. To prevent
-any possible data loss, out of the box, `django_microsoft_auth` will
-essentially make it so you cannot log in with Microsoft auth to access any
-users that are linked with a v1 Microsoft auth account.
-
-You set `MICROSOFT_AUTH_AUTO_REPLACE_ACCOUNTS` to `True` to enable the behavior
-that will automatically replace a paired Microsoft Account on a user with the
-newly created one returned from Microsoft. This can potientally result is
-orhpaned data if you have a related object references to `MicrosoftAccount`
-instead of the user. It is recommend you stay on 1.3.x until you can manually
-migrate this data.
-
-Once these account have been migrated, you can safely delete any remaining
-v1 Microsoft Accounts.
-
 Sliencing `Scope has changed` warnings
 --------------------------------------
 
 If you stay on 1.3.x for a bit and you start getting
 `Scope has changed from "User.Read" to "User.Read email profile openid".`, you
-can slience this warning by setting an env variable for
+can silence this warning by setting an env variable for
 `OAUTHLIB_RELAX_TOKEN_SCOPE` before starting Django.
-
-Bash
-
-```bash
-$ export OAUTHLIB_RELAX_TOKEN_SCOPE=true
-$ python manage.py runserver
-```
-
-PowerShell
-
-```powershell
-> $env:OAUTHLIB_RELAX_TOKEN_SCOPE=$TRUE
-> python manage.py runserver
-```
-
-You should however upgrade to 2.0 once you can.
