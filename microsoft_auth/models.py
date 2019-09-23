@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.sites.models import Site
 from django.db import models
@@ -100,3 +101,10 @@ class SiteConfiguration(models.Model):
         """
         real_name = name.replace('MICROSOFT_AUTH_', '').lower()
         return super().__getattribute__(real_name)
+
+
+class SitesUser(AbstractBaseUser):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+
+    class Meta:
+        abstract = True
