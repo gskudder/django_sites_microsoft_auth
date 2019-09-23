@@ -35,21 +35,21 @@ if admin.site.is_registered(User):  # pragma: no branch
 
 
 class MicrosoftAccountAdmin(*base_admin):
-    readonly_fields = ("microsoft_id",)
+    readonly_fields = ("microsoft_id", "site",)
 
 
 class MicrosoftAccountInlineAdmin(admin.StackedInline):
     model = MicrosoftAccount
-    readonly_fields = ("microsoft_id",)
+    readonly_fields = ("microsoft_id", "site",)
 
 
 class XboxLiveAccountAdmin(*base_admin):
-    readonly_fields = ("xbox_id", "gamertag")
+    readonly_fields = ("xbox_id", "gamertag", "site")
 
 
 class XboxLiveAccountInlineAdmin(admin.StackedInline):
     model = XboxLiveAccount
-    readonly_fields = ("xbox_id", "gamertag")
+    readonly_fields = ("xbox_id", "gamertag", "site")
 
 
 def _register_admins():

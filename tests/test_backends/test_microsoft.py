@@ -35,7 +35,7 @@ class MicrosoftBackendsTests(TestCase):
         self.site = get_current_site(self.request)
 
         self.linked_account = MicrosoftAccount.objects.create(
-            microsoft_id="test_id"
+            microsoft_id="test_id", site=self.site
         )
         self.linked_account.user = User.objects.create(
             username="user1", email=EMAIL2, site=self.site
@@ -43,7 +43,7 @@ class MicrosoftBackendsTests(TestCase):
         self.linked_account.save()
 
         self.unlinked_account = MicrosoftAccount.objects.create(
-            microsoft_id="missing_id"
+            microsoft_id="missing_id", site=self.site
         )
 
         self.unlinked_user = User.objects.create(

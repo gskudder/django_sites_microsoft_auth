@@ -23,10 +23,10 @@ class AdminTests(TestCase):
             "test", "test@example.com", "password1", site=self.site
         )
         self.microsoft_account = MicrosoftAccount.objects.create(
-            microsoft_id="test", user=self.user
+            microsoft_id="test", user=self.user, site=self.site
         )
         self.xbox_account = XboxLiveAccount.objects.create(
-            xbox_id="test", gamertag="test", user=self.user
+            xbox_id="test", gamertag="test", user=self.user, site=self.site
         )
 
         self.client.force_login(self.user)

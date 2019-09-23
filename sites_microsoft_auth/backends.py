@@ -99,7 +99,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
         xbox_user = None
 
         try:
-            xbox_user = XboxLiveAccount.objects.get(xbox_id=data["xid"])
+            xbox_user = XboxLiveAccount.objects.get(xbox_id=data["xid"], site=self.site)
             # update Gamertag since they can change over time
             if xbox_user.gamertag != data["gtg"]:
                 xbox_user.gamertag = data["gtg"]
@@ -108,7 +108,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
             if self.config.MICROSOFT_AUTH_AUTO_CREATE:
                 # create new Xbox Live Account
                 xbox_user = XboxLiveAccount(
-                    xbox_id=data["xid"], gamertag=data["gtg"]
+                    xbox_id=data["xid"], gamertag=data["gtg"], site=self.site
                 )
                 xbox_user.save()
 
@@ -143,7 +143,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
         except MicrosoftAccount.DoesNotExist:
             if self.config.MICROSOFT_AUTH_AUTO_CREATE:
                 # create new Microsoft Account
-                microsoft_user = MicrosoftAccount(microsoft_id=data["sub"])
+                microsoft_user = MicrosoftAccount(microsoft_id=data["sub"], site=self.site)
                 microsoft_user.save()
 
         return microsoft_user
@@ -206,7 +206,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
 
     def _get_existing_microsoft_account(self, user):
         try:
-            return MicrosoftAccount.objects.get(user=user)
+            return MicrosoftAccount.objects.get(user=user, site=self.site)
         except MicrosoftAccount.DoesNotExist:
             return None
 

@@ -14,13 +14,13 @@ class ModelsTests(TestCase):
         cls.site = Site.objects.get(id=1)
 
     def test_microsoft_account_str(self):
-        a = MicrosoftAccount(microsoft_id=USER_ID)
+        a = MicrosoftAccount(microsoft_id=USER_ID, site=self.site)
         a.save()
 
         self.assertEqual(USER_ID, str(a))
 
     def test_xbox_account_str(self):
-        a = XboxLiveAccount(gamertag=USER_ID)
+        a = XboxLiveAccount(gamertag=USER_ID, site=self.site)
         a.save()
 
         self.assertEqual(USER_ID, str(a))
