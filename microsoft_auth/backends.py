@@ -2,6 +2,7 @@ import logging
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
+from django.contrib.sites.shortcuts import get_current_site
 
 from microsoft_auth import conf
 from .client import MicrosoftClient
@@ -19,6 +20,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
 
     config = None
     microsoft = None
+    site = None
 
     def authenticate(self, request, code=None):
         """
@@ -33,6 +35,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
 
         self.microsoft = MicrosoftClient(request=request)
         self.config = conf.get_conf(request)
+        self.site = get_current_site(request)
 
         user = None
         if code is not None:
@@ -113,7 +116,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
 
     def _verify_xbox_user(self, xbox_user):
         if xbox_user.user is None:
-            user = User(username=xbox_user.gamertag)
+            user = User(username=xbox_user.gamertag, site=self.site)
             user.save()
 
             xbox_user.user = user
@@ -158,11 +161,13 @@ class MicrosoftAuthenticationBackend(ModelBackend):
                 # create new Django user from provided data
                 try:
                     user = User.objects.get(
-                        username__iexact=data['preferred_username'][:150]
+                        username__iexact=data['preferred_username'][:150],
+                        site=self.site,
                     )
                 except User.DoesNotExist:
                     user = User.objects.get(
-                        email__iexact=data.get('email', None)
+                        email__iexact=data.get('email', None),
+                        site=self.site,
                     )
 
                 if user.first_name == "" and user.last_name == "":
@@ -175,6 +180,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
                     first_name=first_name,
                     last_name=last_name,
                     email=data.get('email', ''),
+                    site=self.site
                 )
                 user.save()
 
