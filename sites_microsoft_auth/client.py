@@ -112,7 +112,7 @@ class MicrosoftClient(OAuth2Session):
 
             if response.ok:
                 jwks = response.json()["keys"]
-                cache.set(CACHE_KEY_JWKS.format(self.site), jwks, CACHE_TIMEOUT)
+                cache.set(CACHE_KEY_JWKS.format(site=self.site), jwks, CACHE_TIMEOUT)
         return jwks
 
     def get_claims(self, allow_refresh=True):
@@ -134,8 +134,8 @@ class MicrosoftClient(OAuth2Session):
                     "could not find public key for id_token, "
                     "refreshing OIDC config"
                 )
-                cache.delete(CACHE_KEY_JWKS.format(self.site))
-                cache.delete(CACHE_KEY_OPENID.format(self.site))
+                cache.delete(CACHE_KEY_JWKS.format(site=self.site))
+                cache.delete(CACHE_KEY_OPENID.format(site=self.site))
 
                 return self.get_claims(allow_refesh=False)
             else:
