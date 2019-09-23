@@ -4,12 +4,13 @@ import logging
 import jwt
 import requests
 from django.contrib.sites.models import Site
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.cache import cache
 from django.urls import reverse
 from jwt.algorithms import RSAAlgorithm
 from requests_oauthlib import OAuth2Session
 
-from .old_conf import (
+from .conf import (
     CACHE_KEY_JWKS,
     CACHE_KEY_OPENID,
     CACHE_TIMEOUT,
@@ -82,7 +83,7 @@ class MicrosoftClient(OAuth2Session):
 
     @property
     def openid_config(self):
-        config = cache.get(CACHE_KEY_OPENID)
+        config = cache.get(CACHE_KEY_OPENID.format(site=get_current_site(self.request)))
 
         if config is None:
             config_url = self._config_url.format(
@@ -92,13 +93,13 @@ class MicrosoftClient(OAuth2Session):
 
             if response.ok:
                 config = response.json()
-                cache.set(CACHE_KEY_OPENID, config, CACHE_TIMEOUT)
+                cache.set(CACHE_KEY_OPENID.format(site=get_current_site(self.request)), config, CACHE_TIMEOUT)
 
         return config
 
     @property
     def jwks(self):
-        jwks = cache.get(CACHE_KEY_JWKS, [])
+        jwks = cache.get(CACHE_KEY_JWKS.format(site=get_current_site(self.request)), [])
 
         if len(jwks) == 0:
             jwks_uri = self.openid_config["jwks_uri"]
@@ -109,7 +110,7 @@ class MicrosoftClient(OAuth2Session):
 
             if response.ok:
                 jwks = response.json()["keys"]
-                cache.set(CACHE_KEY_JWKS, jwks, CACHE_TIMEOUT)
+                cache.set(CACHE_KEY_JWKS.format(get_current_site(self.request)), jwks, CACHE_TIMEOUT)
         return jwks
 
     def get_claims(self, allow_refresh=True):
@@ -131,8 +132,8 @@ class MicrosoftClient(OAuth2Session):
                     "could not find public key for id_token, "
                     "refreshing OIDC config"
                 )
-                cache.delete(CACHE_KEY_JWKS)
-                cache.delete(CACHE_KEY_OPENID)
+                cache.delete(CACHE_KEY_JWKS.format(get_current_site(self.request)))
+                cache.delete(CACHE_KEY_OPENID.format(get_current_site(self.request)))
 
                 return self.get_claims(allow_refesh=False)
             else:

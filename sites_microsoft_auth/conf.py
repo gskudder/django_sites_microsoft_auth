@@ -10,8 +10,8 @@ HOOK_SETTINGS = [
     "MICROSOFT_AUTH_CALLBACK_HOOK",
 ]
 CACHE_TIMEOUT = 86400
-CACHE_KEY_OPENID = "microsoft_auth_openid_config"
-CACHE_KEY_JWKS = "microsoft_auth_jwks"
+CACHE_KEY_OPENID = "microsoft_auth_openid_config_{site}"
+CACHE_KEY_JWKS = "microsoft_auth_jwks_{site}"
 
 
 def get_conf(request):
