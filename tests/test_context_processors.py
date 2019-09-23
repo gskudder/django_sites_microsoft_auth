@@ -28,6 +28,9 @@ class ContextProcessorsTests(TestCase):
     @patch("sites_microsoft_auth.context_processors.MicrosoftClient")
     def test_microsoft_login_enabled(self, mock_client):
         request = self.factory.get("/")
+        config = get_conf(request)
+        config.login_enabled = True
+        config.save()
         context = microsoft(request)
 
         self.assertTrue(context.get("microsoft_login_enabled"))
@@ -35,10 +38,6 @@ class ContextProcessorsTests(TestCase):
     @patch("sites_microsoft_auth.context_processors.MicrosoftClient")
     def test_microsoft_login_enabled_disabled(self, mock_client):
         request = self.factory.get("/")
-
-        config = get_conf(request)
-        config.login_enabled = False
-        config.save()
         context = microsoft(request)
 
         self.assertFalse(context.get("microsoft_login_enabled"))
