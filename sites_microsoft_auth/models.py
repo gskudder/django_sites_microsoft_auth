@@ -83,11 +83,11 @@ class SiteConfiguration(models.Model):
     xbl_sync_username = models.BooleanField(default=False)
     # Automatically replace an existing Microsoft Account paired to a user when authenticating.
     auto_replace_accounts = models.BooleanField(default=False)
-    # Callable hook to call after authenticating a user on the `microsoft_auth.backends.MicrosoftAuthenticationBackend`.
+    # Callable hook to call after authenticating a user on the `sites_microsoft_auth.backends.MicrosoftAuthenticationBackend`.
     # If the login type is Microsoft Auth, the parameters will be
     # `(User: user, oauthlib.oauth2.rfc6749.tokens.OAuth2Token: token)`
     # If the login type is Xbox Live, the parameters will be `(User:user, dict: token)`
-    # where token is the Xbox Token, see `microsoft_auth.client.MicrosoftClient.fetch_xbox_token` for format
+    # where token is the Xbox Token, see `sites_microsoft_auth.client.MicrosoftClient.fetch_xbox_token` for format
     authenticate_hook = models.CharField(max_length=100, default='', blank=True)
     # """Callable hook to call right before completing the `auth_callback` view. Really useful for adding custom data
     # to message or chaining the expected base URL that gets passed back up to the window that initiated the original

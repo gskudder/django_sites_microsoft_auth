@@ -6,9 +6,9 @@ from urllib.parse import parse_qs, urlparse
 from django.contrib.sites.models import Site
 from django.test import RequestFactory, override_settings
 
-from microsoft_auth.client import MicrosoftClient
-from microsoft_auth.conf import get_conf
-from microsoft_auth.old_conf import LOGIN_TYPE_XBL
+from sites_microsoft_auth.client import MicrosoftClient
+from sites_microsoft_auth.conf import get_conf
+from sites_microsoft_auth.old_conf import LOGIN_TYPE_XBL
 
 from . import TestCase
 
@@ -113,7 +113,7 @@ class ClientTests(TestCase):
             expected_auth_url, auth_client.authorization_url()
         )
 
-    @patch("microsoft_auth.client.requests")
+    @patch("sites_microsoft_auth.client.requests")
     def test_fetch_xbox_token(self, mock_requests):
         mock_response = Mock()
         mock_response.status_code = 200
@@ -127,7 +127,7 @@ class ClientTests(TestCase):
         self.assertEqual(XBOX_TOKEN, xbox_token)
         self.assertEqual(XBOX_TOKEN, auth_client.xbox_token)
 
-    @patch("microsoft_auth.client.requests")
+    @patch("sites_microsoft_auth.client.requests")
     def test_fetch_xbox_token_params(self, mock_requests):
         expected_headers = {
             "Content-type": "application/json",
@@ -155,7 +155,7 @@ class ClientTests(TestCase):
             headers=expected_headers,
         )
 
-    @patch("microsoft_auth.client.requests")
+    @patch("sites_microsoft_auth.client.requests")
     def test_fetch_xbox_token_bad_response(self, mock_requests):
         mock_response = Mock()
         mock_response.status_code = 400
@@ -168,7 +168,7 @@ class ClientTests(TestCase):
         self.assertEqual({}, xbox_token)
         self.assertEqual({}, auth_client.xbox_token)
 
-    @patch("microsoft_auth.client.requests")
+    @patch("sites_microsoft_auth.client.requests")
     def test_get_xbox_profile(self, mock_requests):
         mock_response = Mock()
         mock_response.status_code = 200
@@ -183,7 +183,7 @@ class ClientTests(TestCase):
 
         self.assertEqual(XBOX_PROFILE, xbox_profile)
 
-    @patch("microsoft_auth.client.requests")
+    @patch("sites_microsoft_auth.client.requests")
     def test_get_xbox_profile_params(self, mock_requests):
         expected_headers = {
             "Content-type": "application/json",
@@ -210,7 +210,7 @@ class ClientTests(TestCase):
             headers=expected_headers,
         )
 
-    @patch("microsoft_auth.client.requests")
+    @patch("sites_microsoft_auth.client.requests")
     def test_get_xbox_profile_bad_response(self, mock_requests):
         mock_response = Mock()
         mock_response.status_code = 400

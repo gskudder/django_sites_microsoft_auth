@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
 
-from microsoft_auth.models import MicrosoftAccount, XboxLiveAccount
+from sites_microsoft_auth.models import MicrosoftAccount, XboxLiveAccount
 
 from . import TestCase
 

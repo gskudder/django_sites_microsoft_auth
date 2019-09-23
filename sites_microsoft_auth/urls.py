@@ -1,6 +1,6 @@
 from .old_conf import config
 
-app_name = "microsoft_auth"
+app_name = "sites_microsoft_auth"
 
 urlpatterns = []
 

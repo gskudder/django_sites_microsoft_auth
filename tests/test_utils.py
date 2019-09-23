@@ -2,8 +2,8 @@ from unittest.mock import Mock, patch
 
 from django.test import RequestFactory, override_settings
 
-from microsoft_auth.old_conf import config
-from microsoft_auth.utils import get_hook, get_scheme
+from sites_microsoft_auth.old_conf import config
+from sites_microsoft_auth.utils import get_hook, get_scheme
 
 from . import TestCase
 
@@ -44,7 +44,7 @@ class UtilsTests(TestCase):
     @override_settings(
         MICROSOFT_AUTH_AUTHENTICATE_HOOK="tests.test_utils.hook_callback"
     )
-    @patch("microsoft_auth.utils.importlib")
+    @patch("sites_microsoft_auth.utils.importlib")
     def test_get_hook_valid_not_empty(self, mock_import):
         mock_module = Mock()
         mock_module.hook_callback = Mock()

@@ -7,7 +7,7 @@ from django.core.signing import TimestampSigner
 from django.test import RequestFactory
 from django.urls import reverse
 
-from microsoft_auth.views import AuthenticateCallbackView
+from sites_microsoft_auth.views import AuthenticateCallbackView
 
 from . import TestCase
 
@@ -34,12 +34,12 @@ class ViewsTests(TestCase):
         self.user = User.objects.create(username="test", site=self.site)
 
     def test_authenticate_callback_bad_method(self):
-        response = self.client.get(reverse("microsoft_auth:auth-callback"))
+        response = self.client.get(reverse("sites_microsoft_auth:auth-callback"))
 
         self.assertEqual(405, response.status_code)
 
     def test_authenticate_callback_no_params(self):
-        response = self.client.post(reverse("microsoft_auth:auth-callback"))
+        response = self.client.post(reverse("sites_microsoft_auth:auth-callback"))
         message = json.loads(response.context["message"])["microsoft_auth"]
 
         self.assertEqual(400, response.status_code)
@@ -51,7 +51,7 @@ class ViewsTests(TestCase):
 
     def test_authenticate_callback_bad_state_format(self):
         response = self.client.post(
-            reverse("microsoft_auth:auth-callback"), {"state": "test"}
+            reverse("sites_microsoft_auth:auth-callback"), {"state": "test"}
         )
         message = json.loads(response.context["message"])["microsoft_auth"]
 
@@ -64,7 +64,7 @@ class ViewsTests(TestCase):
 
     def test_authenticate_callback_bad_state_length(self):
         response = self.client.post(
-            reverse("microsoft_auth:auth-callback"), {"state": "001464"}
+            reverse("sites_microsoft_auth:auth-callback"), {"state": "001464"}
         )
         message = json.loads(response.context["message"])["microsoft_auth"]
 
@@ -77,7 +77,7 @@ class ViewsTests(TestCase):
 
     def test_authenticate_callback_bad_state(self):
         response = self.client.post(
-            reverse("microsoft_auth:auth-callback"), {"state": STATE[:-1]}
+            reverse("sites_microsoft_auth:auth-callback"), {"state": STATE[:-1]}
         )
         message = json.loads(response.context["message"])["microsoft_auth"]
 
@@ -90,7 +90,7 @@ class ViewsTests(TestCase):
 
     def test_authenticate_callback_bad_state_expired(self):
         response = self.client.post(
-            reverse("microsoft_auth:auth-callback"), {"state": EXPIRED_STATE}
+            reverse("sites_microsoft_auth:auth-callback"), {"state": EXPIRED_STATE}
         )
         message = json.loads(response.context["message"])["microsoft_auth"]
 
@@ -104,7 +104,7 @@ class ViewsTests(TestCase):
     def test_authenticate_callback_missing_code(self):
 
         response = self.client.post(
-            reverse("microsoft_auth:auth-callback"), {"state": STATE}
+            reverse("sites_microsoft_auth:auth-callback"), {"state": STATE}
         )
         message = json.loads(response.context["message"])["microsoft_auth"]
 
@@ -117,7 +117,7 @@ class ViewsTests(TestCase):
 
     def test_authenticate_callback_error(self):
         response = self.client.post(
-            reverse("microsoft_auth:auth-callback"),
+            reverse("sites_microsoft_auth:auth-callback"),
             {
                 "state": STATE,
                 "error": TEST_ERROR,
@@ -130,12 +130,12 @@ class ViewsTests(TestCase):
         self.assertEqual(TEST_ERROR, message["error"])
         self.assertEqual(TEST_ERROR_DESCRIPTION, message["error_description"])
 
-    @patch("microsoft_auth.views.authenticate")
+    @patch("sites_microsoft_auth.views.authenticate")
     def test_authenticate_callback_fail_auth(self, mock_auth):
         mock_auth.return_value = None
 
         response = self.client.post(
-            reverse("microsoft_auth:auth-callback"),
+            reverse("sites_microsoft_auth:auth-callback"),
             {"state": STATE, "code": "test_code"},
         )
         message = json.loads(response.context["message"])["microsoft_auth"]
@@ -147,13 +147,13 @@ class ViewsTests(TestCase):
             message["error_description"],
         )
 
-    @patch("microsoft_auth.views.authenticate")
-    @patch("microsoft_auth.views.login")
+    @patch("sites_microsoft_auth.views.authenticate")
+    @patch("sites_microsoft_auth.views.login")
     def test_authenticate_callback_success(self, mock_login, mock_auth):
         mock_auth.return_value = self.user
 
         response = self.client.post(
-            reverse("microsoft_auth:auth-callback"),
+            reverse("sites_microsoft_auth:auth-callback"),
             {"state": STATE, "code": "test_code"},
         )
         message = json.loads(response.context["message"])["microsoft_auth"]
@@ -162,9 +162,9 @@ class ViewsTests(TestCase):
         self.assertEqual({}, message)
         mock_login.assert_called_with(response.wsgi_request, self.user)
 
-    @patch("microsoft_auth.views.authenticate")
-    @patch("microsoft_auth.views.login")
-    @patch("microsoft_auth.views.get_hook")
+    @patch("sites_microsoft_auth.views.authenticate")
+    @patch("sites_microsoft_auth.views.login")
+    @patch("sites_microsoft_auth.views.get_hook")
     def test_callback_hook(self, mock_get_hook, mock_login, mock_auth):
         def callback(request, context):
             return context
@@ -175,7 +175,7 @@ class ViewsTests(TestCase):
         mock_get_hook.return_value = mock_hook
 
         response = self.client.post(
-            reverse("microsoft_auth:auth-callback"),
+            reverse("sites_microsoft_auth:auth-callback"),
             {"state": STATE, "code": "test_code"},
         )
 

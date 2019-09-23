@@ -31,7 +31,7 @@ Quickstart
         you generate these and store them somewhere.
 
         When you are registering the app it will ask for a Redirect URI. This
-        **must** match the absolute URL of your `microsoft_auth:auth-callback`
+        **must** match the absolute URL of your `sites_microsoft_auth:auth-callback`
         view. By default this would be `https://<your-domain>/microsoft/auth-callback/`.
 
         This URL **must be HTTPS** unless your hostname is `localhost`.
@@ -47,19 +47,19 @@ Quickstart
 
 5. Create a `custom user model <https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#specifying-a-custom-user-model>`_
 
-The easiest way to do this is to subclass `microsoft_auth.models.SitesUser`.
+The easiest way to do this is to subclass `sites_microsoft_auth.models.SitesUser`.
 You can also create your own custom user model that includes the following fields:
 
 .. code-block:: python3
 
     from django.contrib.sites.models import Site
-    import microsoft_auth.models
+    import sites_microsoft_auth.models
 
     username = models.CharField(
         _('username'),
         max_length=150,
         help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
-        validators=[microsoft_auth.models.UnicodeSpaceUsernameValidator],
+        validators=[sites_microsoft_auth.models.UnicodeSpaceUsernameValidator],
         unique=True,
     )
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
@@ -71,7 +71,7 @@ You can also create your own custom user model that includes the following field
     INSTALLED_APPS = [
         # other apps...
         'django.contrib.sites',
-        'microsoft_auth',
+        'sites_microsoft_auth',
     ]
 
     AUTH_USER_MODEL = 'app_name.YourCustomUserModel'
@@ -82,14 +82,14 @@ You can also create your own custom user model that includes the following field
             'OPTIONS': {
                 'context_processors': [
                     # other context_processors...
-                    'microsoft_auth.context_processors.microsoft',
+                    'sites_microsoft_auth.context_processors.microsoft',
                 ],
             },
         },
     ]
 
     AUTHENTICATION_BACKENDS = [
-        'microsoft_auth.backends.MicrosoftAuthenticationBackend',
+        'sites_microsoft_auth.backends.MicrosoftAuthenticationBackend',
         'django.contrib.auth.backends.ModelBackend' # if you also want to use Django's authentication
         # I recommend keeping this with at least one database superuser in case of unable to use others
     ]
@@ -114,7 +114,7 @@ You can also create your own custom user model that includes the following field
 
     urlpatterns = [
         # other urlpatterns...
-        path('microsoft/', include('microsoft_auth.urls', namespace='microsoft')),
+        path('microsoft/', include('sites_microsoft_auth.urls', namespace='microsoft')),
     ]
 
 8. Run migrations

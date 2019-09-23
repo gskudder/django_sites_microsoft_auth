@@ -4,8 +4,8 @@ from django.contrib.auth import authenticate, get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.test import RequestFactory, override_settings
 
-from microsoft_auth.conf import get_conf
-from microsoft_auth.models import MicrosoftAccount
+from sites_microsoft_auth.conf import get_conf
+from sites_microsoft_auth.models import MicrosoftAccount
 
 from .. import TestCase
 
@@ -20,7 +20,7 @@ MISSING_ID = "some_missing_id"
 
 @override_settings(
     AUTHENTICATION_BACKENDS=[
-        "microsoft_auth.backends.MicrosoftAuthenticationBackend",
+        "sites_microsoft_auth.backends.MicrosoftAuthenticationBackend",
         "django.contrib.auth.backends.ModelBackend",
     ]
 )
@@ -55,7 +55,7 @@ class MicrosoftBackendsTests(TestCase):
 
         self.assertIs(user, None)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_invalid_token(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = {}
@@ -67,7 +67,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertTrue(mock_auth.fetch_token.called)
         self.assertIs(user, None)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_invalid_scopes(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -81,7 +81,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertTrue(mock_auth.valid_scopes.called)
         self.assertIs(user, None)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_invalid_profile(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -96,7 +96,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertTrue(mock_auth.valid_scopes.called)
         self.assertIs(user, None)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_errored_profile(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -111,7 +111,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertTrue(mock_auth.valid_scopes.called)
         self.assertIs(user, None)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_user(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -127,7 +127,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertIsNot(user, None)
         self.assertEqual(user.id, self.linked_account.user.id)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_user_missing_user(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -148,7 +148,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertEqual(user.id, self.unlinked_account.user.id)
         self.assertEqual(EMAIL, self.unlinked_account.user.email)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_user_no_user_with_name(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -171,7 +171,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertEqual(FIRST, self.unlinked_account.user.first_name)
         self.assertEqual(LAST, self.unlinked_account.user.last_name)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_user_unlinked_user(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -192,7 +192,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertEqual(user.id, self.unlinked_account.user.id)
         self.assertEqual(self.unlinked_user.id, self.unlinked_account.user.id)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_user_unlinked_user_no_autofill(
         self, mock_client
     ):
@@ -224,7 +224,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertEqual(expected_first_name, self.unlinked_user.first_name)
         self.assertEqual(expected_last_name, self.unlinked_user.last_name)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_user_unlinked_user_no_name(
         self, mock_client
     ):
@@ -248,7 +248,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertEqual(user.id, self.unlinked_account.user.id)
         self.assertEqual(self.unlinked_user.id, self.unlinked_account.user.id)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_user_missing_name(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -270,7 +270,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertEqual(FIRST, self.unlinked_user.first_name)
         self.assertEqual(LAST, self.unlinked_user.last_name)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_no_autocreate(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -287,7 +287,7 @@ class MicrosoftBackendsTests(TestCase):
 
         self.assertIs(user, None)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_autocreate(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -307,7 +307,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertEqual(EMAIL, user.email)
         self.assertEqual(MISSING_ID, user.microsoft_account.microsoft_id)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_autocreate_no_email(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -327,7 +327,7 @@ class MicrosoftBackendsTests(TestCase):
         self.assertEqual(MISSING_ID, user.microsoft_account.microsoft_id)
         self.assertEqual(user.email, '')
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_linked_default(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -345,7 +345,7 @@ class MicrosoftBackendsTests(TestCase):
 
         self.assertIsNone(user)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_linked_replace(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -374,8 +374,8 @@ class MicrosoftBackendsTests(TestCase):
     @override_settings(
         MICROSOFT_AUTH_AUTHENTICATE_HOOK="tests.test_backends.test_microsoft.hook_callback"  # noqa
     )
-    @patch("microsoft_auth.backends.MicrosoftClient")
-    @patch("microsoft_auth.backends.get_hook")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.get_hook")
     def test_authenticate_hook(self, mock_get_hook, mock_client):
         mock_hook = Mock()
         mock_get_hook.return_value = mock_hook

@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 constance_config = None
 settings = None
 
-""" List of all possible default configs for microsoft_auth
+""" List of all possible default configs for sites_microsoft_auth
 
     DEFAULT_CONFIG['defaults'] and DEFAULT_CONFIG['fieldsets'] are in a format
     usable by django-constance
@@ -23,7 +23,7 @@ settings = None
             'choices': (('ma', 'Microsoft Accounts'),
                         ('xbl', 'Xbox Live Accounts'))}]}
 
-    MICROSOFT_AUTH_CONFIG_CLASS is the only microsoft_auth setting not present
+    MICROSOFT_AUTH_CONFIG_CLASS is the only sites_microsoft_auth setting not present
     here. See bottom of file for more on it.
 """
 
@@ -125,7 +125,7 @@ DEFAULT_CONFIG = {
             "",
             _(
                 """Callable hook to call after authenticating a user on the
-                `microsoft_auth.backends.MicrosoftAuthenticationBackend`.
+                `sites_microsoft_auth.backends.MicrosoftAuthenticationBackend`.
 
                 If the login type is Microsoft Auth, the parameters will be
                 `(User: user, oauthlib.oauth2.rfc6749.tokens.OAuth2Token:
@@ -133,7 +133,7 @@ DEFAULT_CONFIG = {
 
                 If the login type is Xbox Live, the parameters will be
                 `(User:user, dict: token)` where token is the Xbox Token,
-                see `microsoft_auth.client.MicrosoftClient.fetch_xbox_token`
+                see `sites_microsoft_auth.client.MicrosoftClient.fetch_xbox_token`
                 for format"""
             ),
             str,
@@ -264,7 +264,7 @@ def init_config():
 
 
 """ Override MICROSOFT_AUTH_CONFIG_CLASS to inject your own custom dynamic
-    settings class into microsoft_auth. Useful if you want to manage config
+    settings class into sites_microsoft_auth. Useful if you want to manage config
     using a dynamic settings manager such as django-constance
 
     Optionally the class can have an 'add_default_config' method to add the

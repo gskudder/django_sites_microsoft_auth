@@ -41,8 +41,8 @@ def get_config():
     cfg.VCS = "git"
     cfg.style = "pep440"
     cfg.tag_prefix = ""
-    cfg.parentdir_prefix = "microsoft_auth-"
-    cfg.versionfile_source = "microsoft_auth/_version.py"
+    cfg.parentdir_prefix = "sites_microsoft_auth-"
+    cfg.versionfile_source = "sites_microsoft_auth/_version.py"
     cfg.verbose = False
     return cfg
 

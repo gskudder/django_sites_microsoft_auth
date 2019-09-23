@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.sites.shortcuts import get_current_site
 
-from microsoft_auth import conf
+from sites_microsoft_auth import conf
 from .client import MicrosoftClient
 from .conf import LOGIN_TYPE_XBL
 from .models import MicrosoftAccount, XboxLiveAccount

@@ -4,9 +4,9 @@ from django.contrib.auth import authenticate, get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.test import RequestFactory, override_settings
 
-from microsoft_auth.conf import get_conf
-from microsoft_auth.old_conf import LOGIN_TYPE_XBL
-from microsoft_auth.models import XboxLiveAccount
+from sites_microsoft_auth.conf import get_conf
+from sites_microsoft_auth.old_conf import LOGIN_TYPE_XBL
+from sites_microsoft_auth.models import XboxLiveAccount
 
 from .. import TestCase
 
@@ -20,7 +20,7 @@ GAMERTAG = "Some Gamertag"
 
 @override_settings(
     AUTHENTICATION_BACKENDS=[
-        "microsoft_auth.backends.MicrosoftAuthenticationBackend",
+        "sites_microsoft_auth.backends.MicrosoftAuthenticationBackend",
         "django.contrib.auth.backends.ModelBackend",
     ],
 )
@@ -44,7 +44,7 @@ class XboxLiveBackendsTests(TestCase):
         self.linked_account.user = User.objects.create(username="user1", site=self.site)
         self.linked_account.save()
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_bad_xbox_token(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -58,7 +58,7 @@ class XboxLiveBackendsTests(TestCase):
         self.assertFalse(mock_auth.get_xbox_profile.called)
         self.assertIs(user, None)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_user(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -76,7 +76,7 @@ class XboxLiveBackendsTests(TestCase):
         self.assertIsNot(user, None)
         self.assertEqual(user.id, self.linked_account.user.id)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_existing_user_new_gamertag(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -96,7 +96,7 @@ class XboxLiveBackendsTests(TestCase):
         self.assertEqual(user.id, self.linked_account.user.id)
         self.assertEqual(GAMERTAG, self.linked_account.gamertag)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_no_autocreate(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -117,7 +117,7 @@ class XboxLiveBackendsTests(TestCase):
 
         self.assertIs(user, None)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_autocreate(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -136,7 +136,7 @@ class XboxLiveBackendsTests(TestCase):
         self.assertEqual(GAMERTAG, user.username)
         self.assertEqual(MISSING_ID, user.xbox_live_account.xbox_id)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_no_sync_username(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -156,7 +156,7 @@ class XboxLiveBackendsTests(TestCase):
         self.assertEqual(user.id, self.linked_account.user.id)
         self.assertNotEqual(GAMERTAG, self.linked_account.user.username)
 
-    @patch("microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
     def test_authenticate_sync_username(self, mock_client):
         mock_auth = Mock()
         mock_auth.fetch_token.return_value = TOKEN
@@ -184,8 +184,8 @@ class XboxLiveBackendsTests(TestCase):
     @override_settings(
         MICROSOFT_AUTH_AUTHENTICATE_HOOK="tests.test_backends.test_xbox.hook_callback"  # noqa
     )
-    @patch("microsoft_auth.backends.MicrosoftClient")
-    @patch("microsoft_auth.backends.get_hook")
+    @patch("sites_microsoft_auth.backends.MicrosoftClient")
+    @patch("sites_microsoft_auth.backends.get_hook")
     def test_authenticate_hook(self, mock_get_hook, mock_client):
         mock_hook = Mock()
         mock_get_hook.return_value = mock_hook

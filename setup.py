@@ -52,7 +52,7 @@ setup(
     author="Griffin Skudder",
     author_email="griffin@skudder.co.nz",
     url="https://github.com/gskudder/django_sites_microsoft_auth",
-    packages=find_packages(include=["microsoft_auth", "microsoft_auth.*"]),
+    packages=find_packages(include=["sites_microsoft_auth", "sites_microsoft_auth.*"]),
     include_package_data=True,
     install_requires=requirements["requirements"],
     license="MIT license",

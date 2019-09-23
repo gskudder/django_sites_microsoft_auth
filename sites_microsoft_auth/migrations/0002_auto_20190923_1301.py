@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('sites', '0002_alter_domain_unique'),
-        ('microsoft_auth', '0001_initial'),
+        ('sites_microsoft_auth', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

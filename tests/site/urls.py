@@ -6,6 +6,6 @@ urlpatterns = [
     url(r"^admin/", admin.site.urls),
     url(
         r"^microsoft/",
-        include("microsoft_auth.urls", namespace="microsoft_auth"),
+        include("sites_microsoft_auth.urls", namespace="sites_microsoft_auth"),
     ),
 ]

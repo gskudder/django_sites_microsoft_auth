@@ -15,7 +15,7 @@ logger = logging.getLogger("django")
 
 
 def microsoft(request):
-    """ Adds global template variables for microsoft_auth """
+    """ Adds global template variables for sites_microsoft_auth """
     login_type = None
     config = get_conf(request)
     if config.MICROSOFT_AUTH_LOGIN_TYPE == LOGIN_TYPE_XBL:

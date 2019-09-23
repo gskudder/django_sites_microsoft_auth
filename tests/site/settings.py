@@ -14,7 +14,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "sites_user",
-    "microsoft_auth",
+    "sites_microsoft_auth",
     "tests",
 ]
 
@@ -71,7 +71,7 @@ USE_L10N = True
 LANGUAGE_CODE = "en-us"
 
 # this much be after the majority of your other settings
-from microsoft_auth.old_conf import DEFAULT_CONFIG  # isort:skip # noqa
+from sites_microsoft_auth.old_conf import DEFAULT_CONFIG  # isort:skip # noqa
 
 CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 CONSTANCE_CONFIG = DEFAULT_CONFIG["defaults"]
@@ -82,11 +82,11 @@ CONSTANCE_ADDITIONAL_FIELDS = DEFAULT_CONFIG["fields"]
 if "LOAD_DEV_SETTINGS" in os.environ:
     DEBUG = True
     TEMPLATES[0]["OPTIONS"]["context_processors"] += [
-        "microsoft_auth.context_processors.microsoft"
+        "sites_microsoft_auth.context_processors.microsoft"
     ]
 
     AUTHENTICATION_BACKENDS = [
-        "microsoft_auth.backends.MicrosoftAuthenticationBackend",
+        "sites_microsoft_auth.backends.MicrosoftAuthenticationBackend",
         "django.contrib.auth.backends.ModelBackend",
     ]
 

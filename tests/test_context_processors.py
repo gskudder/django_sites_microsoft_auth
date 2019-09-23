@@ -5,9 +5,9 @@ from unittest.mock import Mock, patch
 import pytest
 from django.test import RequestFactory, override_settings
 
-from microsoft_auth.conf import get_conf
-from microsoft_auth.old_conf import LOGIN_TYPE_XBL
-from microsoft_auth.context_processors import microsoft
+from sites_microsoft_auth.conf import get_conf
+from sites_microsoft_auth.old_conf import LOGIN_TYPE_XBL
+from sites_microsoft_auth.context_processors import microsoft
 
 from . import TestCase
 
@@ -25,14 +25,14 @@ class ContextProcessorsTests(TestCase):
 
         self.factory = RequestFactory()
 
-    @patch("microsoft_auth.context_processors.MicrosoftClient")
+    @patch("sites_microsoft_auth.context_processors.MicrosoftClient")
     def test_microsoft_login_enabled(self, mock_client):
         request = self.factory.get("/")
         context = microsoft(request)
 
         self.assertTrue(context.get("microsoft_login_enabled"))
 
-    @patch("microsoft_auth.context_processors.MicrosoftClient")
+    @patch("sites_microsoft_auth.context_processors.MicrosoftClient")
     def test_microsoft_login_enabled_disabled(self, mock_client):
         request = self.factory.get("/")
 
@@ -43,8 +43,8 @@ class ContextProcessorsTests(TestCase):
 
         self.assertFalse(context.get("microsoft_login_enabled"))
 
-    @patch("microsoft_auth.context_processors.MicrosoftClient")
-    @patch("microsoft_auth.context_processors.mark_safe")
+    @patch("sites_microsoft_auth.context_processors.MicrosoftClient")
+    @patch("sites_microsoft_auth.context_processors.mark_safe")
     def test_microsoft_authorization_url(self, mock_safe, mock_client):
         mock_client_i = Mock()
         mock_client_i.authorization_url.return_value = [URL]
@@ -56,7 +56,7 @@ class ContextProcessorsTests(TestCase):
 
         self.assertEqual(URL, context.get("microsoft_authorization_url"))
 
-    @patch("microsoft_auth.context_processors.MicrosoftClient")
+    @patch("sites_microsoft_auth.context_processors.MicrosoftClient")
     def test_microsoft_login_type_text(self, mock_client):
 
         request = self.factory.get("/")
@@ -64,7 +64,7 @@ class ContextProcessorsTests(TestCase):
 
         self.assertEqual("Microsoft", context.get("microsoft_login_type_text"))
 
-    @patch("microsoft_auth.context_processors.MicrosoftClient")
+    @patch("sites_microsoft_auth.context_processors.MicrosoftClient")
     def test_microsoft_login_type_text_xbl(self, mock_client):
 
         request = self.factory.get("/")

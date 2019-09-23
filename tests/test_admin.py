@@ -3,9 +3,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.test import override_settings, RequestFactory
 from django.urls import reverse
 
-from microsoft_auth.admin import _register_admins
-from microsoft_auth.old_conf import LOGIN_TYPE_MA, LOGIN_TYPE_XBL
-from microsoft_auth.models import MicrosoftAccount, XboxLiveAccount
+from sites_microsoft_auth.admin import _register_admins
+from sites_microsoft_auth.old_conf import LOGIN_TYPE_MA, LOGIN_TYPE_XBL
+from sites_microsoft_auth.models import MicrosoftAccount, XboxLiveAccount
 
 from . import TestCase
 
@@ -47,7 +47,7 @@ class AdminTests(TestCase):
 
         self.client.get(
             reverse(
-                "admin:microsoft_auth_microsoftaccount_change",
+                "admin:sites_microsoft_auth_microsoftaccount_change",
                 args=(self.microsoft_account.id,),
             )
         )
@@ -68,7 +68,7 @@ class AdminTests(TestCase):
 
         self.client.get(
             reverse(
-                "admin:microsoft_auth_xboxliveaccount_change",
+                "admin:sites_microsoft_auth_xboxliveaccount_change",
                 args=(self.xbox_account.id,),
             )
         )
@@ -86,13 +86,13 @@ class AdminTests(TestCase):
 
         self.client.get(
             reverse(
-                "admin:microsoft_auth_microsoftaccount_change",
+                "admin:sites_microsoft_auth_microsoftaccount_change",
                 args=(self.microsoft_account.id,),
             )
         )
         self.client.get(
             reverse(
-                "admin:microsoft_auth_xboxliveaccount_change",
+                "admin:sites_microsoft_auth_xboxliveaccount_change",
                 args=(self.xbox_account.id,),
             )
         )
