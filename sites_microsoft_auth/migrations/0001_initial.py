@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             name='SiteConfiguration',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('login_enabled', models.BooleanField(default=True)),
+                ('login_enabled', models.BooleanField(default=False)),
                 ('login_type', models.CharField(choices=[('ma', 'Microsoft Account'), ('xbl', 'Xbox Live Account')], max_length=2)),
                 ('tenant_id', models.CharField(default='common', max_length=80)),
                 ('client_id', models.CharField(blank=True, default='', max_length=80)),

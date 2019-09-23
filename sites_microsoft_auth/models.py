@@ -64,7 +64,7 @@ class SiteConfiguration(models.Model):
     )
 
     site = models.OneToOneField(to=Site, on_delete=models.CASCADE)
-    login_enabled = models.BooleanField(default=True)
+    login_enabled = models.BooleanField(default=False)
     login_type = models.CharField(max_length=2, choices=LOGIN_TYPE_CHOICES)
 
     # common means any microsoft account otherwise Microsoft Office 365 Tenant ID
