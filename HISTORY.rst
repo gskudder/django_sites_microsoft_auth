@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.3 (2019-09-23)
+------------------
+
+* Fixed bug with `MicrosoftAuthenticationBackend` not restricting users to their respective sites.
+
 0.2.2 (2019-09-23)
 ------------------
 
