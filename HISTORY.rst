@@ -2,6 +2,12 @@
 History
 =======
 
+0.2.5 (2019-09-23)
+------------------
+
+* Add SiteConfiguration object for all sites during initial migrate.
+* Change default for login_enabled to False
+
 0.2.4 (2019-09-23)
 ------------------
 
