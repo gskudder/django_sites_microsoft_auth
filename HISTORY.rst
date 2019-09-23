@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.7 (2019-09-23)
+------------------
+
+* Fix tests to work with new default for login_enabled.
+
 0.2.6 (2019-09-23)
 ------------------
 
