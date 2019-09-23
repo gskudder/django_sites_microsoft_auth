@@ -16,4 +16,5 @@ CACHE_KEY_JWKS = "microsoft_auth_jwks"
 
 def get_conf(request):
     site = get_current_site(request)
-    return SiteConfiguration.objects.get(site=site)
+    conf, _ = SiteConfiguration.objects.get_or_create(site=site)
+    return conf
