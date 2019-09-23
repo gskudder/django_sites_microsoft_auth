@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.8 (2019-09-23)
+------------------
+
+* Fix bug where migrations were relying on undefined ordering.
+
 0.2.7 (2019-09-23)
 ------------------
 
