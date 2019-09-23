@@ -49,9 +49,9 @@ setup(
         "Django authentication backend."
     ),
     long_description=readme + "\n\n" + history,
-    author="Christopher Bailey",
-    author_email="cbailey@mort.is",
-    url="https://github.com/AngellusMortis/django_microsoft_auth",
+    author="Griffin Skudder",
+    author_email="griffin@skudder.co.nz",
+    url="https://github.com/GriffinSkudder/django_microsoft_auth",
     packages=find_packages(include=["microsoft_auth", "microsoft_auth.*"]),
     include_package_data=True,
     install_requires=requirements["requirements"],
