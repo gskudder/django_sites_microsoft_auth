@@ -40,7 +40,7 @@ for req, req_file in req_files.items():
 
 
 setup(
-    name="django_microsoft_auth",
+    name="django_sites_microsoft_auth",
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     description=(
@@ -51,13 +51,13 @@ setup(
     long_description=readme + "\n\n" + history,
     author="Griffin Skudder",
     author_email="griffin@skudder.co.nz",
-    url="https://github.com/GriffinSkudder/django_microsoft_auth",
+    url="https://github.com/GriffinSkudder/django_sites_microsoft_auth",
     packages=find_packages(include=["microsoft_auth", "microsoft_auth.*"]),
     include_package_data=True,
     install_requires=requirements["requirements"],
     license="MIT license",
     zip_safe=False,
-    keywords="django_microsoft_auth",
+    keywords="django_sites_microsoft_auth",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
