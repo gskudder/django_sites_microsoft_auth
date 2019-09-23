@@ -46,12 +46,12 @@ setup(
     description=(
         "Simple app to enable Microsoft Account, Office 365 "
         "Enterprise, Azure AD, and Xbox Live authentication as a "
-        "Django authentication backend."
+        "Django authentication backend on a per-site basis."
     ),
     long_description=readme + "\n\n" + history,
     author="Griffin Skudder",
     author_email="griffin@skudder.co.nz",
-    url="https://github.com/GriffinSkudder/django_sites_microsoft_auth",
+    url="https://github.com/gskudder/django_sites_microsoft_auth",
     packages=find_packages(include=["microsoft_auth", "microsoft_auth.*"]),
     include_package_data=True,
     install_requires=requirements["requirements"],
@@ -64,7 +64,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
