@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.6 (2019-09-23)
+------------------
+
+* Make sure migrations for sites_microsoft_auth run after migrations for sites framework.
+
 0.2.5 (2019-09-23)
 ------------------
 
