@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.4 (2019-09-23)
+------------------
+
+* Fix bug where 'MicrosoftAuthenticationBackend` is not respecting `site` on the MicrosoftAccount model.
+
 0.2.3 (2019-09-23)
 ------------------
 

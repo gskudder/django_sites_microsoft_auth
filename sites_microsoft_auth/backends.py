@@ -138,7 +138,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
 
         try:
             microsoft_user = MicrosoftAccount.objects.get(
-                microsoft_id=data["sub"]
+                microsoft_id=data["sub"], site=self.site
             )
         except MicrosoftAccount.DoesNotExist:
             if self.config.MICROSOFT_AUTH_AUTO_CREATE:
