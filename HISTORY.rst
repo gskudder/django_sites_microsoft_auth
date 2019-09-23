@@ -2,7 +2,12 @@
 History
 =======
 
-0.2.9 (2019-09-23)
+0.2.10 (2019-09-24)
+-------------------
+
+* Fixes bug in 0.2.9 where cache key was failing.
+
+0.2.9 (2019-09-24)
 ------------------
 
 * Update cache to work on a per-site basis.
