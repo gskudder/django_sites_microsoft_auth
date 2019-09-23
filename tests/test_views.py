@@ -2,7 +2,9 @@ import json
 from unittest.mock import Mock, patch
 
 from django.contrib.auth import get_user_model
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.signing import TimestampSigner
+from django.test import RequestFactory
 from django.urls import reverse
 
 from microsoft_auth.views import AuthenticateCallbackView
@@ -25,8 +27,11 @@ class ViewsTests(TestCase):
         super().setUp()
 
         User = get_user_model()
+        self.factory = RequestFactory()
+        self.request = self.factory.get("/")
+        self.site = get_current_site(self.request)
 
-        self.user = User.objects.create(username="test")
+        self.user = User.objects.create(username="test", site=self.site)
 
     def test_authenticate_callback_bad_method(self):
         response = self.client.get(reverse("microsoft_auth:auth-callback"))

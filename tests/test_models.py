@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.sites.models import Site
 
 from microsoft_auth.models import MicrosoftAccount, XboxLiveAccount
 
@@ -8,6 +9,10 @@ USER_ID = "test_user_id"
 
 
 class ModelsTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.site = Site.objects.get(id=1)
+
     def test_microsoft_account_str(self):
         a = MicrosoftAccount(microsoft_id=USER_ID)
         a.save()
@@ -23,6 +28,6 @@ class ModelsTests(TestCase):
     def test_username_with_spaces(self):
         User = get_user_model()
 
-        u = User(username="Test username")
+        u = User(username="Test username", site=self.site)
         u.set_unusable_password()
         u.full_clean()

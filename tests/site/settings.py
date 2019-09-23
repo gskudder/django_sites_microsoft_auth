@@ -13,11 +13,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "sites_user",
     "microsoft_auth",
     "tests",
 ]
 
-AUTH_USER_MODEL = 'tests.TestUser'
+AUTH_USER_MODEL = 'sites_user.TestUser'
 
 try:
     import djangoql  # noqa

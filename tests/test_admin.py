@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.test import override_settings
+from django.contrib.sites.shortcuts import get_current_site
+from django.test import override_settings, RequestFactory
 from django.urls import reverse
 
 from microsoft_auth.admin import _register_admins
@@ -14,9 +15,12 @@ class AdminTests(TestCase):
         super().setUp()
 
         User = get_user_model()
+        self.factory = RequestFactory()
+        self.request = self.factory.get("/")
+        self.site = get_current_site(self.request)
 
         self.user = User.objects.create_superuser(
-            "test", "test@example.com", "password1"
+            "test", "test@example.com", "password1", site=self.site
         )
         self.microsoft_account = MicrosoftAccount.objects.create(
             microsoft_id="test", user=self.user
@@ -38,7 +42,7 @@ class AdminTests(TestCase):
 
         self.client.get(reverse("admin:index"))
         self.client.get(
-            reverse("admin:auth_user_change", args=(self.user.id,))
+            reverse("admin:{0}_{1}_change".format(self.user._meta.app_label, self.user._meta.model_name), args=(self.user.id,))
         )
 
         self.client.get(
@@ -59,7 +63,7 @@ class AdminTests(TestCase):
 
         self.client.get(reverse("admin:index"))
         self.client.get(
-            reverse("admin:auth_user_change", args=(self.user.id,))
+            reverse("admin:{0}_{1}_change".format(self.user._meta.app_label, self.user._meta.model_name), args=(self.user.id,))
         )
 
         self.client.get(
@@ -77,7 +81,7 @@ class AdminTests(TestCase):
 
         self.client.get(reverse("admin:index"))
         self.client.get(
-            reverse("admin:auth_user_change", args=(self.user.id,))
+            reverse("admin:{0}_{1}_change".format(self.user._meta.app_label, self.user._meta.model_name), args=(self.user.id,))
         )
 
         self.client.get(

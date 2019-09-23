@@ -1,6 +1,7 @@
 from unittest.mock import Mock, patch
 
 from django.contrib.auth import authenticate, get_user_model
+from django.contrib.sites.shortcuts import get_current_site
 from django.test import RequestFactory, override_settings
 
 from microsoft_auth.conf import get_conf
@@ -31,6 +32,7 @@ class XboxLiveBackendsTests(TestCase):
 
         self.factory = RequestFactory()
         self.request = self.factory.get("/")
+        self.site = get_current_site(self.request)
 
         config = get_conf(self.request)
         config.login_type = LOGIN_TYPE_XBL
@@ -39,7 +41,7 @@ class XboxLiveBackendsTests(TestCase):
         self.linked_account = XboxLiveAccount.objects.create(
             xbox_id="test_id", gamertag="test_gamertag"
         )
-        self.linked_account.user = User.objects.create(username="user1")
+        self.linked_account.user = User.objects.create(username="user1", site=self.site)
         self.linked_account.save()
 
     @patch("microsoft_auth.backends.MicrosoftClient")

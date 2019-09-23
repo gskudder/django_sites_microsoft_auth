@@ -1,6 +1,7 @@
 from unittest.mock import Mock, patch
 
 from django.contrib.auth import authenticate, get_user_model
+from django.contrib.sites.shortcuts import get_current_site
 from django.test import RequestFactory, override_settings
 
 from microsoft_auth.conf import get_conf
@@ -31,12 +32,13 @@ class MicrosoftBackendsTests(TestCase):
 
         self.factory = RequestFactory()
         self.request = self.factory.get("/")
+        self.site = get_current_site(self.request)
 
         self.linked_account = MicrosoftAccount.objects.create(
             microsoft_id="test_id"
         )
         self.linked_account.user = User.objects.create(
-            username="user1", email=EMAIL2
+            username="user1", email=EMAIL2, site=self.site
         )
         self.linked_account.save()
 
@@ -45,7 +47,7 @@ class MicrosoftBackendsTests(TestCase):
         )
 
         self.unlinked_user = User.objects.create(
-            username="user2", email="test@example.com"
+            username="user2", email="test@example.com", site=self.site
         )
 
     def test_authenticate_no_code(self):
