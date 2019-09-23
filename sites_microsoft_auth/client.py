@@ -61,6 +61,8 @@ class MicrosoftClient(OAuth2Session):
         except Site.DoesNotExist:
             current_site = Site.objects.first()
 
+        self.site = current_site
+
         domain = current_site.domain
         path = reverse("sites_microsoft_auth:auth-callback")
         scope = " ".join(self.SCOPE_MICROSOFT)
@@ -83,7 +85,7 @@ class MicrosoftClient(OAuth2Session):
 
     @property
     def openid_config(self):
-        config = cache.get(CACHE_KEY_OPENID.format(site=get_current_site(self.request)))
+        config = cache.get(CACHE_KEY_OPENID.format(site=self.site))
 
         if config is None:
             config_url = self._config_url.format(
@@ -93,13 +95,13 @@ class MicrosoftClient(OAuth2Session):
 
             if response.ok:
                 config = response.json()
-                cache.set(CACHE_KEY_OPENID.format(site=get_current_site(self.request)), config, CACHE_TIMEOUT)
+                cache.set(CACHE_KEY_OPENID.format(site=self.site), config, CACHE_TIMEOUT)
 
         return config
 
     @property
     def jwks(self):
-        jwks = cache.get(CACHE_KEY_JWKS.format(site=get_current_site(self.request)), [])
+        jwks = cache.get(CACHE_KEY_JWKS.format(site=self.site), [])
 
         if len(jwks) == 0:
             jwks_uri = self.openid_config["jwks_uri"]
@@ -110,7 +112,7 @@ class MicrosoftClient(OAuth2Session):
 
             if response.ok:
                 jwks = response.json()["keys"]
-                cache.set(CACHE_KEY_JWKS.format(get_current_site(self.request)), jwks, CACHE_TIMEOUT)
+                cache.set(CACHE_KEY_JWKS.format(self.site), jwks, CACHE_TIMEOUT)
         return jwks
 
     def get_claims(self, allow_refresh=True):
@@ -132,8 +134,8 @@ class MicrosoftClient(OAuth2Session):
                     "could not find public key for id_token, "
                     "refreshing OIDC config"
                 )
-                cache.delete(CACHE_KEY_JWKS.format(get_current_site(self.request)))
-                cache.delete(CACHE_KEY_OPENID.format(get_current_site(self.request)))
+                cache.delete(CACHE_KEY_JWKS.format(self.site))
+                cache.delete(CACHE_KEY_OPENID.format(self.site))
 
                 return self.get_claims(allow_refesh=False)
             else:
