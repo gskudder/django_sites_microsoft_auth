@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.11 (2020-01-13)
+-------------------
+
+* Fixes bug where the max_length on a CharField wasn't long enough for all choices to be stored.
+
 0.2.10 (2019-09-24)
 -------------------
 
