@@ -17,7 +17,14 @@ logger = logging.getLogger("django")
 def microsoft(request):
     """ Adds global template variables for sites_microsoft_auth """
     login_type = None
-    config = get_conf(request)
+    try:
+        config = get_conf(request)
+    except Site.DoesNotExist:
+        logger.warning(
+            "\nWARNING:\nThe domain configured for the sites framework "
+            "does not match the domain you are accessing Django with. "
+            "Microsoft authentication may not work.\n"
+        )
     if config.MICROSOFT_AUTH_LOGIN_TYPE == LOGIN_TYPE_XBL:
         login_type = _("Xbox Live")
     else:
