@@ -184,7 +184,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
                     site=self.site
                 )
                 if self.config.MICROSOFT_AUTH_SYNC_USER_ATTRIBUTES:
-                    for key, value in json.loads(self.config.MICROSOFT_AUTH_ATTRIBUTE_MAPPINGS):
+                    for key, value in json.loads(self.config.MICROSOFT_AUTH_ATTRIBUTE_MAPPINGS).items():
                         if isinstance(value, dict):
                             for key1, value1 in value.items():
                                 setattr(getattr(user, key), key1,
