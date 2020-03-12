@@ -78,6 +78,8 @@ class SiteConfiguration(models.Model):
     extra_scopes = models.CharField(max_length=80, default='', blank=True)
     # Autocreate user that attempt to login if they do not already exist?
     auto_create = models.BooleanField(default=True)
+    sync_user_attributes = models.BooleanField(default=False)
+    attribute_mappings = models.TextField(default='{}', blank=True)
     # Automatically register admin class for auth type that is not active (Xbox when Microsoft Auth is enabled
     # and Microsoft Auth when Xbox is enabled). Requires restart of app for setting to take effect.
     register_inactive_admin = models.BooleanField(default=False)
