@@ -2,6 +2,11 @@
 History
 =======
 
+1.0.2 (2020-03-13)
+------------------
+
+* Fix get_hook() to work with database configuration.
+
 1.0.1 (2020-03-13)
 ------------------
 
