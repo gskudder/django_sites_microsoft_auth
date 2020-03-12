@@ -2,6 +2,11 @@
 History
 =======
 
+1.0.1 (2020-03-13)
+------------------
+
+* Fixes bug when reading user attribute mappings.
+
 1.0.0 (2020-03-13)
 ------------------
 
