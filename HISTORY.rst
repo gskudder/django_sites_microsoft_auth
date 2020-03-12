@@ -2,6 +2,12 @@
 History
 =======
 
+1.0.0 (2020-03-13)
+------------------
+
+* Fixes bug with Site note existing
+* Add feature to sync user attributes from Azure AD.
+
 0.2.11 (2020-01-13)
 -------------------
 
