@@ -13,6 +13,7 @@ from django.utils.translation import ugettext as _
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
+from sites_microsoft_auth import conf
 from .utils import get_hook, get_scheme
 
 logger = logging.getLogger("django")
@@ -76,7 +77,7 @@ class AuthenticateCallbackView(View):
                 self.context["message"]["error"]
             ]
 
-        function = get_hook("MICROSOFT_AUTH_CALLBACK_HOOK")
+        function = get_hook("MICROSOFT_AUTH_CALLBACK_HOOK", conf.get_conf(self.request))
         if function is not None:
             self.context = function(self.request, self.context)
 

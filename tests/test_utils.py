@@ -36,10 +36,10 @@ class UtilsTests(TestCase):
         self.assertEqual(get_scheme(self.request), "https")
 
     def test_get_hook_invalid(self):
-        self.assertIsNone(get_hook("NOT_A_REAL_HOOK"))
+        self.assertIsNone(get_hook("NOT_A_REAL_HOOK", config))
 
     def test_get_hook_valid_default(self):
-        self.assertIsNone(get_hook("MICROSOFT_AUTH_AUTHENTICATE_HOOK"))
+        self.assertIsNone(get_hook("MICROSOFT_AUTH_AUTHENTICATE_HOOK", config))
 
     @override_settings(
         MICROSOFT_AUTH_AUTHENTICATE_HOOK="tests.test_utils.hook_callback"
@@ -50,6 +50,6 @@ class UtilsTests(TestCase):
         mock_module.hook_callback = Mock()
         mock_import.import_module.return_value = mock_module
 
-        function = get_hook("MICROSOFT_AUTH_AUTHENTICATE_HOOK")
+        function = get_hook("MICROSOFT_AUTH_AUTHENTICATE_HOOK", config)
 
         self.assertEqual(function, mock_module.hook_callback)

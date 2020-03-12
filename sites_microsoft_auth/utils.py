@@ -18,9 +18,9 @@ def get_scheme(request, config=None):
     return scheme
 
 
-def get_hook(name):
+def get_hook(name, config):
     if name in HOOK_SETTINGS:
-        hook_setting = getattr(global_config, name)
+        hook_setting = getattr(config, name)
         if hook_setting != "":
             module_path, function_name = hook_setting.rsplit(".", 1)
             module = importlib.import_module(module_path)

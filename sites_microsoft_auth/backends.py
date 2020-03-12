@@ -221,7 +221,7 @@ class MicrosoftAuthenticationBackend(ModelBackend):
             return None
 
     def _call_hook(self, user):
-        function = get_hook("MICROSOFT_AUTH_AUTHENTICATE_HOOK")
+        function = get_hook("MICROSOFT_AUTH_AUTHENTICATE_HOOK", self.config)
         if function is not None:
             if self.config.MICROSOFT_AUTH_LOGIN_TYPE == LOGIN_TYPE_XBL:
                 function(user, self.microsoft.xbox_token)
