@@ -31,7 +31,7 @@ as a Django authentication backend that is compatible and configurable across mu
 
 
 * Free software: MIT license
-* Documentation: https://django-microsoft-auth.readthedocs.io.
+* Documentation: https://django-sites-microsoft-auth.readthedocs.io.
 
 Features
 --------
