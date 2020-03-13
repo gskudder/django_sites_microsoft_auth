@@ -50,7 +50,7 @@ with one exception: no Python 2 support. If you absoutely need Python 2.7
 support, everything should largely already work, but you may need to patch
 `sites_microsoft_auth.admin` and/or other files to get it to work.
 
-Supported python versions:  3.5+
+Supported python versions:  3.6+
 
 Supported Django version: 1.11 LTS, 2.1+
 
