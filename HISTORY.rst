@@ -2,6 +2,11 @@
 History
 =======
 
+1.0.3 (2020-03-13)
+------------------
+
+* Remove user attribute mapping. This feature was buggy and the same can be achieved using hooks.
+
 1.0.2 (2020-03-13)
 ------------------
 
