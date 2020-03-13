@@ -183,15 +183,6 @@ class MicrosoftAuthenticationBackend(ModelBackend):
                     email=data.get('email', ''),
                     site=self.site
                 )
-                if self.config.MICROSOFT_AUTH_SYNC_USER_ATTRIBUTES:
-                    for key, value in json.loads(self.config.MICROSOFT_AUTH_ATTRIBUTE_MAPPINGS).items():
-                        if isinstance(value, dict):
-                            for key1, value1 in value.items():
-                                setattr(getattr(user, key), key1,
-                                        data.get(key1))
-                            getattr(user, key).save()
-                        else:
-                            setattr(user, key, data.get(value))
                 user.save()
 
             existing_account = self._get_existing_microsoft_account(user)
