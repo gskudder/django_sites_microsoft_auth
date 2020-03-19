@@ -2,6 +2,11 @@
 History
 =======
 
+1.0.4 (2020-03-20)
+------------------
+
+* Remove migration for user attribute mapping which was still there accidentally and breaking all tests.
+
 1.0.3 (2020-03-13)
 ------------------
 
