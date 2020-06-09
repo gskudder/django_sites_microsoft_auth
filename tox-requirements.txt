@@ -16,7 +16,7 @@ distlib==0.3.0            # via virtualenv
 docopt==0.6.2             # via coveralls
 entrypoints==0.3          # via flake8
 filelock==3.0.12          # via tox, virtualenv
-flake8==3.7.9
+flake8==3.8.3
 idna==2.9                 # via requests
 importlib-metadata==1.5.2  # via importlib-resources, pluggy, pytest, tox, virtualenv
 importlib-resources==1.4.0  # via virtualenv
