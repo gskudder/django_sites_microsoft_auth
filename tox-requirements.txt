@@ -15,7 +15,7 @@ cryptography==2.8
 distlib==0.3.0            # via virtualenv
 docopt==0.6.2             # via coveralls
 entrypoints==0.3          # via flake8
-filelock==3.0.12          # via tox, virtualenv
+filelock==3.2.1          # via tox, virtualenv
 flake8==3.7.9
 idna==2.9                 # via requests
 importlib-metadata==1.5.2  # via importlib-resources, pluggy, pytest, tox, virtualenv
