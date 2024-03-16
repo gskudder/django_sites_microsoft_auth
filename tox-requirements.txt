@@ -19,7 +19,7 @@ filelock==3.0.12          # via tox, virtualenv
 flake8==3.7.9
 idna==2.9                 # via requests
 importlib-metadata==1.5.2  # via importlib-resources, pluggy, pytest, tox, virtualenv
-importlib-resources==1.4.0  # via virtualenv
+importlib-resources==6.3.1  # via virtualenv
 mccabe==0.6.1             # via flake8
 more-itertools==8.2.0     # via pytest
 oauthlib==3.1.0           # via requests-oauthlib
